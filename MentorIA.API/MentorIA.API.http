@@ -1,6 +1,6 @@
 @MentorIA.API_HostAddress = http://localhost:5020
 
-GET {{MentorIA.API_HostAddress}}/weatherforecast/
+GET {{MentorIA.API_HostAddress}}/scalar/
 Accept: application/json
 
 ###
