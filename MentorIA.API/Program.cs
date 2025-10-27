@@ -9,6 +9,7 @@ builder.Services.AddDocumentationApi().AddOpenAI(builder.Configuration);
 var app = builder.Build();
 
 app.UseDocumentationApi();
+app.MapChatEndpoint();
 app.UseHttpsRedirection();
 
 app.Run();
