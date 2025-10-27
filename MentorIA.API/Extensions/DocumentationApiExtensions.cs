@@ -7,19 +7,24 @@ public static class DocumentationApiExtensions
 {
     public static IServiceCollection AddDocumentationApi(this IServiceCollection services)
     {
-        services.AddOpenApi("v1", opt =>
-        {
-            opt.AddDocumentTransformer((doc, context, cancellationToken) =>
+        services.AddOpenApi(
+            "v1",
+            opt =>
             {
-                doc.Info = new OpenApiInfo
-                {
-                    Title = "Mentor AI API",
-                    Version = "v1",
-                    Description = "API de comunicação com Open AI",
-                };
-                return Task.CompletedTask;
-            });
-        });
+                opt.AddDocumentTransformer(
+                    (doc, context, cancellationToken) =>
+                    {
+                        doc.Info = new OpenApiInfo
+                        {
+                            Title = "Mentor AI API",
+                            Version = "v1",
+                            Description = "API de comunicação com Open AI",
+                        };
+                        return Task.CompletedTask;
+                    }
+                );
+            }
+        );
         return services;
     }
 
