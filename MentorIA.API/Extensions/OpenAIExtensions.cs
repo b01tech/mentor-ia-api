@@ -9,7 +9,7 @@ public static class OpenAIExtensions
         IConfiguration configuration
     )
     {
-        var apiKey = configuration["OpenIA:ApiKey"];
+        var apiKey = configuration["OpenAI:ApiKey"];
         if (string.IsNullOrEmpty(apiKey))
         {
             throw new InvalidOperationException("OpenAI: API Key is missing");
