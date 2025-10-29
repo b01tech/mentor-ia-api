@@ -17,10 +17,7 @@ namespace MentorIA.API.Services
         public async Task<string> GetResponseAsync(string prompt)
         {
             var chatClient = _openAIClient.GetChatClient(_model);
-            var messages = new List<ChatMessage>
-            {
-                new UserChatMessage(prompt)
-            };
+            var messages = new List<ChatMessage> { new UserChatMessage(prompt) };
             var options = new ChatCompletionOptions
             {
                 Temperature = 0.4f,
