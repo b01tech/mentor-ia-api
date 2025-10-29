@@ -31,5 +31,6 @@ public static class OpenAIExtensions
     {
         services.AddScoped<ChatService>();
         services.AddScoped<RecipeService>();
+        services.AddScoped<ImageService>();
     }
 }
