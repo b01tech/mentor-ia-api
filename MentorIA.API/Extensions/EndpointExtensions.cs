@@ -1,6 +1,5 @@
 using MentorIA.API.DTOs;
 using MentorIA.API.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MentorIA.API.Extensions
 {
@@ -46,6 +45,29 @@ namespace MentorIA.API.Extensions
                     }
                 )
                 .WithDescription("GetRecipe");
+        }
+
+        public static void MapImageEndpoint(this WebApplication app)
+        {
+            var group = app.MapGroup("/image").WithTags("Image");
+            group
+                .MapPost(
+                    "/",
+                    async (ImageRequestDTO request, ImageService imageService) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(request?.Prompt))
+                            return Results.BadRequest("Prompt must be provided");
+
+                        var response = await imageService.GetImageAsync(
+                            request.Prompt,
+                            request.Quality,
+                            request.Height,
+                            request.Width
+                        );
+                        return Results.Ok(response);
+                    }
+                )
+                .WithDescription("GetImage");
         }
     }
 }
