@@ -1,4 +1,6 @@
+using MentorIA.API.DTOs;
 using MentorIA.API.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace MentorIA.API.Extensions
 {
@@ -10,13 +12,40 @@ namespace MentorIA.API.Extensions
             group
                 .MapPost(
                     "/",
-                    async (string prompt, ChatService chatService) =>
+                    async (ChatRequestDTO request, ChatService chatService) =>
                     {
-                        var response = await chatService.GetResponseAsync(prompt);
-                        return Results.Ok(new { Response = response });
+                        if (string.IsNullOrWhiteSpace(request?.Prompt))
+                            return Results.BadRequest("Prompt must be provided");
+                        var response = await chatService.GetResponseAsync(request.Prompt);
+                        return Results.Ok(response);
                     }
                 )
                 .WithDescription("AskChatAI");
+        }
+
+        public static void MapRecipeEndpoint(this WebApplication app)
+        {
+            var group = app.MapGroup("/recipe").WithTags("Recipe");
+            group
+                .MapPost(
+                    "/",
+                    async (RecipeRequestDTO request, RecipeService recipeService) =>
+                    {
+                        if (string.IsNullOrWhiteSpace(request?.Ingredients))
+                            return Results.BadRequest("Ingredients must be provided");
+
+                        var cuisine = request.Cuisine ?? "Any";
+                        var restrictions = request.Restrictions ?? "None";
+
+                        var response = await recipeService.GetRecipeAsync(
+                            request.Ingredients,
+                            cuisine,
+                            restrictions
+                        );
+                        return Results.Ok(response);
+                    }
+                )
+                .WithDescription("GetRecipe");
         }
     }
 }
